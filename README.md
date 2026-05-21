@@ -34,7 +34,7 @@
 
 ## Структура файлов
 
-```text
+```repository_root
 ├── Model/           # Бизнес-логика (Core) и Сериализация (Data)
 └── RestaurantMenu/  # UI на базе WPF (XAML) и файлы данных
 
