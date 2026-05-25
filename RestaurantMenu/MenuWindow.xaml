@@ -16,7 +16,7 @@
                       SelectionChanged="CategoryFilterComboBox_SelectionChanged"/>
         </StackPanel>
 
-        <DataGrid x:Name="MenuDataGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid x:Name="MenuDataGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="2*"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price, StringFormat={}{0:C}}" Width="1*"/>
