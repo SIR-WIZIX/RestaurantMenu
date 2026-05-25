@@ -1,6 +1,17 @@
-﻿namespace Model;
+﻿using Model.Core.Interfaces;
 
-public class Cafe
+namespace Model.Core.Establishments
 {
+    public class Cafe : Establishment
+    {
+        private bool _hasBusinessLunch;
 
+        public bool HasBusinessLunch => _hasBusinessLunch;
+
+        public Cafe(string name, string address, IMenu mainMenu, bool hasBusinessLunch)
+            : base(name, address, mainMenu)
+        {
+            _hasBusinessLunch = hasBusinessLunch;
+        }
+    }
 }
