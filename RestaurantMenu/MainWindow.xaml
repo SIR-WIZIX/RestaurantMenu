@@ -1,12 +1,26 @@
 ﻿<Window x:Class="RestaurantMenu.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RestaurantMenu"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Главное меню — Выбор заведения" Height="380" Width="450" 
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Управление меню ресторанов" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
+            <TextBlock Text="Выберите тип заведения:" Margin="0,5,0,2"/>
+            <ComboBox x:Name="TypeFilterComboBox" SelectionChanged="TypeFilterComboBox_SelectionChanged" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Выберите заведение:" Margin="0,5,0,2"/>
+            <ComboBox x:Name="EstablishmentComboBox" SelectionChanged="EstablishmentComboBox_SelectionChanged" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Вид меню:" Margin="0,5,0,2"/>
+            <ComboBox x:Name="MenuTypeComboBox" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Формат сохранения данных:" Margin="0,5,0,2"/>
+            <ComboBox x:Name="FormatComboBox" SelectionChanged="FormatComboBox_SelectionChanged" Margin="0,0,0,10"/>
+
+            <Button x:Name="ShowMenuButton" Content="Показать меню" Height="35" Margin="0,15,0,0" 
+                    IsEnabled="False" Click="ShowMenuButton_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
