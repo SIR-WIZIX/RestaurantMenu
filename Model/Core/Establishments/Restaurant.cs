@@ -1,10 +1,11 @@
-﻿using Model.Core.Interfaces;
+using Model.Core.Interfaces;
 
 namespace Model.Core.Establishments
 {
     public class Restaurant : Establishment
     {
         private int _starsCount; // Например, звезды Мишлен или внутренний рейтинг
+        public override string ToString() => Name;
 
         public int StarsCount => _starsCount;
 
