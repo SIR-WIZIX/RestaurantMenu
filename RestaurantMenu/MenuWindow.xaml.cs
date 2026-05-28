@@ -80,12 +80,39 @@ namespace RestaurantMenu
             if (_currentMenu == null)
                 return;
 
-            var newDish = new HotDish("Новое тестовое блюдо", 200, 15, "Горячее");
+            string name = DishNameTextBox.Text.Trim();
+            string category = DishCategoryTextBox.Text.Trim();
+            string priceText = DishPriceTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(name) ||
+                string.IsNullOrWhiteSpace(category) ||
+                string.IsNullOrWhiteSpace(priceText))
+            {
+                MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!decimal.TryParse(priceText, out decimal price))
+            {
+                MessageBox.Show("Цена должна быть числом!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Создаём блюдо — используй нужный тип (HotDish, ColdDish, Drink и т.д.)
+            var newDish = new HotDish(name, price, 0, category);
+
             _currentMenu.AddDish(newDish);
 
             RefreshGrid();
             LoadCategories();
+
+            // Очищаем поля
+            DishNameTextBox.Text = "";
+            DishPriceTextBox.Text = "";
+            DishCategoryTextBox.Text = "";
         }
+
+
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
