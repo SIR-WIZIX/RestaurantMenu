@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -47,6 +47,15 @@ namespace RestaurantMenu
 
         private void InitializeFilters()
         {
+
+
+            NewEstablishmentTypeComboBox.ItemsSource = new List<string>
+            {
+            "Restaurant",
+            "Cafe",
+            "CoffeeShop"};
+            NewEstablishmentTypeComboBox.SelectedIndex = 0;
+
             TypeFilterComboBox.ItemsSource = new List<string>
             {
                 "Все",
@@ -66,42 +75,102 @@ namespace RestaurantMenu
         private void TypeFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string? selectedType = TypeFilterComboBox.SelectedItem as string;
-            if (selectedType == "Все" || selectedType == null)
-            {
-                EstablishmentComboBox.ItemsSource = _allEstablishments;
-            }
-            else
-            {
-                EstablishmentComboBox.ItemsSource = _allEstablishments
-                    .Where(est =>
-                        est.GetType().Name.Equals(selectedType, StringComparison.OrdinalIgnoreCase)
-                    )
-                    .ToList();
-            }
+
+            EstablishmentComboBox.Items.Clear();
+
+            IEnumerable<Establishment> filtered =
+                selectedType == "Все" || selectedType == null
+                ? _allEstablishments
+                : _allEstablishments.Where(est =>
+                    est.GetType().Name.Equals(selectedType, StringComparison.OrdinalIgnoreCase));
+
+            // Добавляем реальные объекты
+            foreach (var est in filtered)
+                EstablishmentComboBox.Items.Add(est);
+
+            // Добавляем пункт "Новое"
+            EstablishmentComboBox.Items.Add(new NewEstablishment());
+
             EstablishmentComboBox.SelectedIndex = -1;
         }
 
-        private void EstablishmentComboBox_SelectionChanged(
-            object sender,
-            SelectionChangedEventArgs e
-        )
+
+
+
+        private void EstablishmentComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ShowMenuButton.IsEnabled = EstablishmentComboBox.SelectedItem != null;
+            if (EstablishmentComboBox.SelectedItem is NewEstablishment)
+            {
+                NewEstablishmentPanel.Visibility = Visibility.Visible;
+                ShowMenuButton.IsEnabled = false;
+            }
+            else if (EstablishmentComboBox.SelectedItem is Establishment)
+            {
+                NewEstablishmentPanel.Visibility = Visibility.Collapsed;
+                ShowMenuButton.IsEnabled = true;
+            }
         }
+
+
+        public class NewEstablishment 
+        {
+            public override string ToString() => "Новое";
+        }
+
+
+        private void AddEstablishmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            string name = NewEstablishmentNameTextBox.Text.Trim();
+            string address = NewEstablishmentAddressTextBox.Text.Trim();
+            string type = NewEstablishmentTypeComboBox.SelectedItem as string;
+
+
+            if (string.IsNullOrWhiteSpace(name) ||
+                string.IsNullOrWhiteSpace(address) ||
+                string.IsNullOrWhiteSpace(type))
+            {
+                MessageBox.Show("Заполните все поля!");
+                return;
+            }
+
+            Establishment newEst = type switch
+            {
+                "Restaurant" => new Restaurant(name, address, new DomainMenu(), 0),
+                "Cafe" => new Cafe(name, address, new DomainMenu(), true),
+                "CoffeeShop" => new CoffeeShop(name, address, new DomainMenu(), 0),
+                _ => null
+            };
+
+            if (newEst == null)
+            {
+                MessageBox.Show("Неизвестный тип заведения.");
+                return;
+            }
+
+            _allEstablishments.Add(newEst);
+
+            // Перезагружаем список
+            TypeFilterComboBox_SelectionChanged(null, null);
+
+            MessageBox.Show("Заведение добавлено!");
+        }
+
+
+
 
         private void FormatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 
         private void ShowMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedEst = EstablishmentComboBox.SelectedItem as Establishment;
-            string? selectedMenuType = MenuTypeComboBox.SelectedItem as string;
-
-            if (selectedEst != null && selectedMenuType != null)
+            if (EstablishmentComboBox.SelectedItem is Establishment est &&
+                MenuTypeComboBox.SelectedItem is string menuType)
             {
-                MenuWindow menuWindow = new MenuWindow(selectedEst, selectedMenuType);
+                MenuWindow menuWindow = new MenuWindow(est, menuType);
                 menuWindow.ShowDialog();
             }
         }
+
+
     }
 }
 
