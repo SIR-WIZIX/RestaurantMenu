@@ -7,6 +7,7 @@ namespace Model.Core.Establishments
         private string _name;
         private string _address;
         private IMenu _mainMenu;
+        public override string ToString() => Name;
 
         public string Name => _name;
         public string Address => _address;
