@@ -1,4 +1,4 @@
-﻿using Model.Core.Interfaces;
+using Model.Core.Interfaces;
 
 namespace Model.Core.Establishments
 {
@@ -7,6 +7,8 @@ namespace Model.Core.Establishments
         private bool _hasBusinessLunch;
 
         public bool HasBusinessLunch => _hasBusinessLunch;
+        public override string ToString() => Name;
+
 
         public Cafe(string name, string address, IMenu mainMenu, bool hasBusinessLunch)
             : base(name, address, mainMenu)
