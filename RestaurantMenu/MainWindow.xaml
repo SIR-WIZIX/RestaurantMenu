@@ -35,8 +35,12 @@
             <TextBlock Text="Формат сохранения данных:" Margin="0,5,0,2"/>
             <ComboBox x:Name="FormatComboBox" SelectionChanged="FormatComboBox_SelectionChanged" Margin="0,0,0,10"/>
 
+            <UniformGrid Columns="2" Margin="0,5,0,10">
+                <Button Content="Сохранить в файл" Height="28" Margin="0,0,5,0" Click="SaveDatabaseButton_Click"/>
+                <Button Content="Загрузить из файла" Height="28" Margin="5,0,0,0" Click="LoadDatabaseButton_Click"/>
+            </UniformGrid>
+
             <Button x:Name="ShowMenuButton" Content="Показать меню" Height="35" Margin="0,15,0,0" 
-                    IsEnabled="False" Click="ShowMenuButton_Click"/>
-        </StackPanel>
+                    IsEnabled="False" Click="ShowMenuButton_Click"/>        </StackPanel>
     </Grid>
 </Window>
