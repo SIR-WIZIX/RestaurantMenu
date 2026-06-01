@@ -40,7 +40,20 @@
                 <Button Content="Загрузить из файла" Height="28" Margin="5,0,0,0" Click="LoadDatabaseButton_Click"/>
             </UniformGrid>
 
-            <Button x:Name="ShowMenuButton" Content="Показать меню" Height="35" Margin="0,15,0,0" 
-                    IsEnabled="False" Click="ShowMenuButton_Click"/>        </StackPanel>
-    </Grid>
+            <UniformGrid Columns="2" Margin="0,15,0,0">
+                <Button x:Name="ShowMenuButton" 
+                        Content="Показать меню" 
+                        Height="35" 
+                        Margin="0,0,5,0" 
+                        Click="ShowMenuButton_Click"/>
+                
+                <Button x:Name="DeleteEstablishmentButton" 
+                        Content="Удалить заведение" 
+                        Height="35" 
+                        Margin="5,0,0,0" 
+                        Background="#FFF17676" 
+                        Click="DeleteEstablishmentButton_Click"/>
+            </UniformGrid>
+            
+        </StackPanel> </Grid>
 </Window>

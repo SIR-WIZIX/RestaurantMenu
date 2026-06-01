@@ -84,17 +84,29 @@ namespace RestaurantMenu
             string category = DishCategoryTextBox.Text.Trim();
             string priceText = DishPriceTextBox.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(name) ||
-                string.IsNullOrWhiteSpace(category) ||
-                string.IsNullOrWhiteSpace(priceText))
+            if (
+                string.IsNullOrWhiteSpace(name)
+                || string.IsNullOrWhiteSpace(category)
+                || string.IsNullOrWhiteSpace(priceText)
+            )
             {
-                MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    "Заполните все поля!",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
                 return;
             }
 
             if (!decimal.TryParse(priceText, out decimal price))
             {
-                MessageBox.Show("Цена должна быть числом!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(
+                    "Цена должна быть числом!",
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
                 return;
             }
 
@@ -111,8 +123,6 @@ namespace RestaurantMenu
             DishPriceTextBox.Text = "";
             DishCategoryTextBox.Text = "";
         }
-
-
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -133,6 +143,42 @@ namespace RestaurantMenu
                 MessageBoxButton.OK,
                 MessageBoxImage.Information
             );
+        }
+
+        private void ClearMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentMenu == null || !_currentMenu.GetDishes().Any())
+            {
+                MessageBox.Show(
+                    "В данном меню еще нет ни одного блюда. Очистка не требуется.",
+                    "Предупреждение",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+
+            var confirmResult = MessageBox.Show(
+                $"Вы действительно хотите полностью и безвозвратно удалить все блюда ({_currentMenu.GetDishes().Count()} шт.) из этого меню?",
+                "Подтверждение полной очистки меню",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+
+            if (confirmResult == MessageBoxResult.Yes)
+            {
+                _currentMenu.Clear();
+
+                RefreshGrid();
+                LoadCategories();
+
+                MessageBox.Show(
+                    "Все позиции меню были успешно удалены!",
+                    "Успех",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information
+                );
+            }
         }
     }
 }

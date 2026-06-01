@@ -276,5 +276,41 @@ namespace RestaurantMenu
                 }
             }
         }
+
+        private void DeleteEstablishmentButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (EstablishmentComboBox.SelectedItem is Establishment selectedEstablishment)
+            {
+                var confirmResult = MessageBox.Show(
+                    $"Вы уверены, что хотите безвозвратно удалить заведение \"{selectedEstablishment.Name}\" и все его меню?",
+                    "Подтверждение удаления",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+                if (confirmResult == MessageBoxResult.Yes)
+                {
+                    _allEstablishments.Remove(selectedEstablishment);
+
+                    TypeFilterComboBox_SelectionChanged(null!, null!);
+
+                    MessageBox.Show(
+                        "Заведение успешно удалено из списка!",
+                        "Успех",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information
+                    );
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Невозможно выполнить удаление. Пожалуйста, выберите конкретное существующее заведение из списка.",
+                    "Предупреждение",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+            }
+        }
     }
 }

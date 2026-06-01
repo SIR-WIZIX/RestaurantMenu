@@ -38,6 +38,11 @@ namespace RestaurantMenu
                     estDto.MainMenuDishes = dm.GetDishes().Select(ConvertDishToDto).ToList();
                 }
 
+                if (est.SeasonalMenu is DomainMenu sm)
+                {
+                    estDto.SeasonalMenuDishes = sm.GetDishes().Select(ConvertDishToDto).ToList();
+                }
+
                 dtos.Add(estDto);
             }
 
@@ -84,6 +89,10 @@ namespace RestaurantMenu
                     ?? new List<Dish>();
                 var mainMenu = new DomainMenu(mainDishes);
 
+                var seasonalDishes =
+                    dto.SeasonalMenuDishes?.Select(d => d.ToDomainObject()).ToList()
+                    ?? new List<Dish>();
+
                 Establishment? est = dto switch
                 {
                     RestaurantDto rDto => new Restaurant(
@@ -109,6 +118,14 @@ namespace RestaurantMenu
 
                 if (est != null)
                 {
+                    if (est.SeasonalMenu is DomainMenu estSeasonal)
+                    {
+                        foreach (var dish in seasonalDishes)
+                        {
+                            estSeasonal.AddDish(dish);
+                        }
+                    }
+
                     resultList.Add(est);
                 }
             }

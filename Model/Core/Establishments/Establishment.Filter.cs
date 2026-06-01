@@ -5,6 +5,8 @@ using Model.Core.Dishes;
 
 namespace Model.Core.Establishments
 {
+    public delegate bool DishCriteria(Dish dish);
+
     public abstract partial class Establishment
     {
         /// <summary>
@@ -14,13 +16,33 @@ namespace Model.Core.Establishments
         {
             if (string.IsNullOrEmpty(category))
             {
-                return _mainMenu.GetDishes(); // Если категория не передана, возвращаем всё
+                return _mainMenu.GetDishes();
             }
 
-            // Фильтруем массив блюд из основного меню по свойству Category
             return _mainMenu
                 .GetDishes()
                 .Where(dish => dish.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
+        }
+
+        /// <summary>
+        /// Универсальный метод фильтрации меню на основе кастомного делегата-критерия.
+        /// </summary>
+        public IEnumerable<Dish> FilterMenu(DishCriteria criteria)
+        {
+            if (criteria == null)
+                return _mainMenu.GetDishes();
+
+            var filteredList = new List<Dish>();
+
+            foreach (var dish in _mainMenu.GetDishes())
+            {
+                if (criteria(dish))
+                {
+                    filteredList.Add(dish);
+                }
+            }
+
+            return filteredList;
         }
     }
 }

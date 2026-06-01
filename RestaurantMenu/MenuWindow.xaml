@@ -39,8 +39,15 @@
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
                 <Button Content="Добавить" Width="80" Click="AddButton_Click"/>
                 <Button Content="Удалить" Width="80" Margin="5,0,0,0" Click="DeleteButton_Click"/>
+                
+                <Button Content="Очистить меню" 
+                        Width="110" 
+                        Margin="5,0,0,0" 
+                        Background="#FFF17676" 
+                        Click="ClearMenuButton_Click"/>
             </StackPanel>
-            <Button Content="Сохранить изменения" HorizontalAlignment="Right" Width="150" Click="SaveButton_Click"/>
+            
+            <Button Content="Сохранить" Width="80" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SaveButton_Click"/>
         </DockPanel>
     </Grid>
 </Window>
